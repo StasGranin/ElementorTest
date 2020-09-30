@@ -17,3 +17,5 @@ Test assignment for Elementor
 `MONGODB_DATABASE` - MongoDB database name (default: ElementorTest)
 
 `APP_TOKEN_SECRET` - JWT token secret key (default: elementor)
+
+`APP_TOKEN_EXPIRE` - JWT token expiration time in seconds (default: 86400, i.e. 24 hours)
