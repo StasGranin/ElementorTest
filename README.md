@@ -11,6 +11,9 @@ Test assignment for Elementor
 ## Server environment variables:
 
 `PORT` - port of the NodeJS server (default: 3000)
+
 `MONGODB_URL` - URL of the MongoDB server (default: mongodb://localhost:27017)
+
 `MONGODB_DATABASE` - MongoDB database name (default: ElementorTest)
+
 `APP_TOKEN_SECRET` - JWT token secret key (default: elementor)
