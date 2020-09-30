@@ -10,7 +10,7 @@ Test assignment for Elementor
 
 ## Server environment variables
     Variable | Description | Default
-    ================================
+    --------------------------------
     **PORT** | port of the NodeJS server | 3000
     **MONGODB_URL** | URL of the MongoDB server | mongodb://localhost:27017
     **MONGODB_DATABASE** | MongoDB database name | ElementorTest
