@@ -16,21 +16,19 @@ const APP_TOKEN_SECRET = process.env.APP_TOKEN_SECRET || 'elementor';
 const app = express();
 let database;
 
-
-// Permissions verification
 const verifyToken = (req, res, next) => {
-	const token = req.headers["x-access-token"];
+	const token = req.headers['x-access-token'];
 
 	if (!token) {
-		return res.status(403).send({data: {errorMessage: "No token provided!"}});
+		return res.status(403).send({data: {errorMessage: 'No token provided!'}});
 	}
 
 	jwt.verify(token, APP_TOKEN_SECRET, (err, decoded) => {
 		if (err) {
-			return res.status(401).send({data: {errorMessage: "Unauthorized!"}});
+			return res.status(401).send({data: {errorMessage: 'Unauthorized!'}});
 		}
 
-		req.userId = decoded.id;
+		//req.userId = decoded.id;
 		next();
 	});
 };
@@ -56,6 +54,7 @@ app.get('/api/test', (req, res) => {
 
 app.get('/api/user', [verifyToken], (req, res) => {
 });
+
 app.get('/api/configuration', [verifyToken], (req, res) => {
 });
 
@@ -66,31 +65,58 @@ app.get('/api/users/getUserDetails', [verifyToken], (req, res) => {
 
 
 app.post('/api/auth/signup', (req, res) => {
+	const username = req.body.username && req.body.username.trim();
+	const password = req.body.password && req.body.password.trim();
+
+	if (username && password) {
+		const collection = database.collection('users');
+
+		collection.findOne({username}).then(user => {
+			const passwordHash = crypto.createHash('sha1').update(password).digest("hex"); // I decided not to use salt for hashing. Yes, I'm aware of the implications
+
+			if (!user) {
+				try {
+					collection.insertOne({
+						username,
+						passwordHash,
+						signUpTime: new Date().getTime()
+					}).then(result => res.status(201).send());
+				}
+				catch (err) {
+					res.status(500).send({data: {errorMessage: 'User creation failed'}});
+				}
+			}
+			else {
+				res.status(400).send({data: {errorMessage: 'Username already exists'}});
+			}
+		});
+	}
+	else {
+		res.status(400).send({data: {errorMessage: 'Missing username or password'}});
+	}
 });
 
 app.post('/api/auth/login', (req, res) => {
-	const user = users.find(user => user.username === req.body.username);
+	const username = req.body.username && req.body.username.trim();
+	const password = req.body.password && req.body.password.trim();
 
-	if (user) {
-		if (user.password === req.body.password) {
-			const token = jwt.sign({id: user.id}, APP_TOKEN_SECRET, {expiresIn: 86400}); // Expire in 24 hours
+	if (username && password) {
+		const collection = database.collection('users');
+		const passwordHash = crypto.createHash('sha1').update(password).digest("hex");
+
+		collection.findOne({username, passwordHash}).then(user => {
+			const token = jwt.sign({username: user.username}, APP_TOKEN_SECRET, {expiresIn: 86400}); // Expire in 24 hours
 
 			res.status(200).send({
 				data: {
-					id: user.id,
-					name: user.name,
 					username: user.username,
-					isAdmin: user.isAdmin,
 					accessToken: token
 				}
 			});
-		}
-		else {
-			return res.status(401).send({data: {accessToken: null, errorMessage: "Invalid Username or Password!"}});
-		}
+		});
 	}
 	else {
-		return res.status(401).send({data: {errorMessage: "Invalid Username or Password!"}});
+		res.status(400).send({data: {errorMessage: 'Missing username or password'}});
 	}
 });
 
