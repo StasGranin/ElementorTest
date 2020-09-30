@@ -20,7 +20,7 @@ module.exports = {
 				return res.status(401).send({data: {errorMessage: 'Unauthorized!'}});
 			}
 
-			//req.userId = decoded.id;
+			req.username = decoded.username;
 			next();
 		});
 	}
