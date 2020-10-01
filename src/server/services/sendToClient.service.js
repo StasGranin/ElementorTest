@@ -1,11 +1,11 @@
 "use strict";
 
-const send = (res, status, payload = {}) => res.status(status).send({status, payload});
+const _send = (res, status, payload = {}) => res.status(status).send({status, payload});
 
 module.exports = {
-	send,
+	send: _send,
 
-	sendError: (res, status, errorMessage) => send(res, status, {errorMessage}),
+	sendError: (res, status, errorMessage) => _send(res, status, {errorMessage}),
 
-	sendGenericError: (res) => send(res, 500, {errorMessage: 'Something went wrong'})
+	sendGenericError: (res) => _send(res, 500, {errorMessage: 'Something went wrong'})
 };

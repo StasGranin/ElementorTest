@@ -21,7 +21,7 @@ module.exports = {
 						silentlyLogOut(sid, username);
 					}
 
-					return sendError(401, 'Invalid token');
+					return sendError(res, 401, 'Invalid token');
 				}
 
 				req.userSession = {sid, username};
@@ -29,7 +29,7 @@ module.exports = {
 			});
 		}
 		else {
-			return sendError(401, 'No token provided!');
+			return sendError(res, 401, 'No token provided!');
 		}
 
 	},
