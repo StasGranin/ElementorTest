@@ -7,6 +7,47 @@ const {send, sendError, sendGenericError} = require('../services/sendToClient.se
 const {getClientIP, getClientUserAgent} = require('../services/util.services');
 
 
+const _logIn = (req, res, username, password) => {
+	if (username && password) {
+		try {
+			const now = new Date().getTime();
+			const usersCollection = getCollection('users');
+			const activeUsersCollection = getCollection('activeUsers');
+			const passwordHash = crypto.createHash('sha1').update(password).digest("hex");
+
+			usersCollection.updateOne({username, passwordHash}, {
+				$inc: {loginCount: 1},
+				$set: {lastLoginTime: now}
+			}).then(result => {
+				if (result.matchedCount) {
+					activeUsersCollection.insertOne({
+						username,
+						lastUpdateTime: now,
+						loginTime: now,
+						userAgent: getClientUserAgent(req),
+						userIP: getClientIP(req)
+					}).then(result => {
+						const sid = result.ops[0]._id;
+						const accessToken = makeToken(sid, username);
+
+						send(res, 200, {sid, username, accessToken});
+					})
+				}
+				else {
+					sendError(res, 400, 'Incorrect username or password');
+				}
+			});
+		}
+		catch (error) {
+			sendGenericError(res);
+		}
+	}
+	else {
+		sendError(res, 400, 'Missing username or password');
+	}
+};
+
+
 module.exports = {
 	signUp: (req, res) => {
 		const username = req.body.username && req.body.username.trim();
@@ -25,7 +66,7 @@ module.exports = {
 							passwordHash,
 							loginCount: 0,
 							signUpTime: new Date().getTime()
-						}).then(result => send(res, 201));
+						}).then(result => _logIn(req, res, username, password));
 					}
 					else {
 						sendError(res, 400, 'Username already taken');
@@ -45,44 +86,7 @@ module.exports = {
 		const username = req.body.username && req.body.username.trim();
 		const password = req.body.password && req.body.password.trim();
 
-		if (username && password) {
-			try {
-				const now = new Date().getTime();
-				const usersCollection = getCollection('users');
-				const activeUsersCollection = getCollection('activeUsers');
-				const passwordHash = crypto.createHash('sha1').update(password).digest("hex");
-
-				usersCollection.updateOne({username, passwordHash}, {
-					$inc: {loginCount: 1},
-					$set: {lastLoginTime: now}
-				}).then(result => {
-
-					if (result.matchedCount) {
-						activeUsersCollection.insertOne({
-							username,
-							lastUpdateTime: now,
-							loginTime: now,
-							userAgent: getClientUserAgent(req),
-							userIP: getClientIP(req)
-						}).then(result => {
-							const sid = result.ops[0]._id;
-							const accessToken = makeToken(sid, username);
-
-							send(res, 200, {sid, username, accessToken});
-						})
-					}
-					else {
-						sendError(res, 400, 'Incorrect username or password');
-					}
-				});
-			}
-			catch (error) {
-				sendGenericError(res);
-			}
-		}
-		else {
-			sendError(res, 400, 'Missing username or password');
-		}
+		_logIn(req, res, username, password);
 	},
 
 	logOut: (req, res) => {
