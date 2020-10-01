@@ -6,14 +6,14 @@ export default class UIComponent {
 
 	constructor(state, templateHTML) {
 
-		this.appState = appState;
-		this.state = state || {};
+		this.state = state || {}; // Not really a true "state", more like "props" object in React
 		this.$element = null;
 		this.uiElements = {};
 
-		if (templateHTML) {
-			const $element = $(templateHTML);
+		if (templateHTML) { // Dunno why would you like to have a UI component without the UI but whatever, people are weird you know
+			const $element = $(templateHTML); // Sort of like a "Virtual DOM" all the cool kids are talking about
 
+			// Select all DOM elements with "ui" attribute and assign them to an object (with attribute value as the key) for easy access later on
 			$('[ui]', $element).each((index, element) => {
 				const uiElementName = element.getAttribute('ui');
 
@@ -33,11 +33,10 @@ export default class UIComponent {
 	onRemove() {
 	}
 
-	remove() {
-		this.$element && this.$element.remove();
-		this.onRemove();
-
-		return this;
+	appendTo($parent) {
+		$parent.append(this.$element);
+		this.onUpdate(this.state);
+		this.onAppend();
 	}
 
 	update(state) {
@@ -46,15 +45,10 @@ export default class UIComponent {
 		}
 
 		this.onUpdate(state);
-
-		return this;
 	}
 
-	appendTo($parent) {
-		$parent.append(this.$element);
-		this.onUpdate(this.state);
-		this.onAppend();
-
-		return this;
+	remove() {
+		this.onRemove();
+		this.$element && this.$element.remove();
 	}
 }
