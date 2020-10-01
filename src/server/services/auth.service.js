@@ -23,5 +23,7 @@ module.exports = {
 			req.username = decoded.username;
 			next();
 		});
-	}
+	},
+
+	decodeToken: (req) => jwt.decode(req.headers['x-access-token'])
 };

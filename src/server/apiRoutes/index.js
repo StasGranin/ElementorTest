@@ -1,10 +1,9 @@
 "use strict";
 
 const express = require('express');
-const {verifyToken} = require('../services/auth.service');
 
-const authRouts = require('./auth');
-const usersRouts = require('./users');
+const authRouts = require('./auth.routes');
+const usersRouts = require('./users.routes.js');
 
 const router = express.Router();
 
