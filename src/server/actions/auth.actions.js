@@ -25,7 +25,7 @@ module.exports = {
 							passwordHash,
 							loginCount: 0,
 							signUpTime: new Date().getTime()
-						}).then(result => res.status(201).send());
+						}).then(result => send(res, 201));
 					}
 					else {
 						sendError(res, 400, 'Username already taken');
@@ -91,7 +91,7 @@ module.exports = {
 		if (username) {
 			try {
 				getCollection('activeUsers').deleteOne({_id: sid, username}).then((result) => {
-					send(res, 200);
+					send(res, 201);
 				});
 			}
 			catch (error) {
