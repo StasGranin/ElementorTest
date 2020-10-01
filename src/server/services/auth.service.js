@@ -1,7 +1,6 @@
 "use strict";
 
 const jwt = require("jsonwebtoken");
-const {silentlyLogOut} = require('../actions/auth.actions');
 const {sendError} = require('./sendToClient.service');
 
 const APP_TOKEN_SECRET = process.env.APP_TOKEN_SECRET || 'elementor';
@@ -17,10 +16,6 @@ module.exports = {
 				const {sid, username} = decoded;
 
 				if (err) {
-					if (sid && username) {
-						silentlyLogOut(sid, username);
-					}
-
 					return sendError(res, 401, 'Invalid token');
 				}
 
