@@ -2,18 +2,18 @@
 
 const {MongoClient} = require('mongodb'); // vanilla MongoDB driver. No Mongoose for you, come back next year!
 
-module.exports = {
-	_db: null,
+let _db = null;
 
+module.exports = {
 	connect: (dbURL, dbName, callback) => {
 		MongoClient.connect(dbURL, {useUnifiedTopology: true}).then((mongoClient) => {
-			this._db = mongoClient.db(dbName);
+			_db = mongoClient.db(dbName);
 			callback();
 		}).catch(error => console.error(error));
 	},
 
-	getDatabase: () => this._db,
+	getDatabase: () => _db,
 
-	getCollection: (collectionName) => this._db.collection(collectionName)
+	getCollection: (collectionName) => _db.collection(collectionName)
 
 };
