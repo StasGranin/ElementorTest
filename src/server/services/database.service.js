@@ -1,6 +1,6 @@
 "use strict";
 
-const {MongoClient} = require('mongodb'); // vanilla MongoDB driver. No Mongoose for you, come back next year!
+const {MongoClient, ObjectId} = require('mongodb'); // vanilla MongoDB driver. No Mongoose for you, come back next year!
 
 let _db = null;
 
@@ -14,6 +14,8 @@ module.exports = {
 
 	getDatabase: () => _db,
 
-	getCollection: (collectionName) => _db.collection(collectionName)
+	getCollection: (collectionName) => _db.collection(collectionName),
+
+	toObjectId: (id) => ObjectId(id)
 
 };

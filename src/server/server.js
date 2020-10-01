@@ -25,12 +25,6 @@ app.get('/login', (req, res) => res.sendFile(path.resolve(__dirname, '../../publ
 
 app.use('/api', apiRouts); // API routes
 
-/*
-app.get('/api/configuration', [verifyToken], (req, res) => {
-});
-
- */
-
 database.connect(MONGODB_URL, MONGODB_DATABASE, () => {
 	app.listen(PORT, () => console.log(`App is listening on port ${PORT}`))
 });
