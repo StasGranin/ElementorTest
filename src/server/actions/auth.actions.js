@@ -1,7 +1,7 @@
 "use strict";
 
 const crypto = require('crypto');
-const {getCollection} = require('../services/database.service');
+const {getCollection, toObjectId} = require('../services/database.service');
 const {makeToken, verifyToken, decodeToken} = require('../services/auth.service');
 const {send, sendError, sendGenericError} = require('../services/sendToClient.service');
 const {getClientIP, getClientUserAgent} = require('../services/util.services');
@@ -49,6 +49,26 @@ const _logIn = (req, res, username, password) => {
 
 
 module.exports = {
+
+	isLoggedIn: (req, res) => {
+		const {sid, username} = decodeToken(req) || {};
+
+		if (sid && username) {
+			try {
+				getCollection('activeUsers').findOne({
+					_id: toObjectId(sid),
+					username
+				}).then(user => send(res, 200, {isLoggedIn: user && true || false}));
+			}
+			catch (error) {
+				sendGenericError(res);
+			}
+		}
+		else {
+			send(res, 200, {isLoggedIn: false})
+		}
+	},
+
 	signUp: (req, res) => {
 		const username = req.body.username && req.body.username.trim();
 		const password = req.body.password && req.body.password.trim();
@@ -94,7 +114,7 @@ module.exports = {
 
 		if (username) {
 			try {
-				getCollection('activeUsers').deleteOne({_id: sid, username}).then((result) => {
+				getCollection('activeUsers').deleteOne({_id: toObjectId(sid), username}).then((result) => {
 					send(res, 201);
 				});
 			}
@@ -110,7 +130,7 @@ module.exports = {
 
 	silentlyLogOut: (username, sid) => {
 		try {
-			getCollection('activeUsers').deleteOne({_id: sid, username});
+			getCollection('activeUsers').deleteOne({_id: toObjectId(sid), username});
 		}
 		catch (error) {
 			sendGenericError(res);
