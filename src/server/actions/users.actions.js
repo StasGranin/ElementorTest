@@ -17,7 +17,7 @@ module.exports = {
 					userIP: getClientIP(req)
 				}
 			}).then(result => {
-				activeUsersCollection.find({}).toArray().then((results) => {
+				activeUsersCollection.find({}).project({userAgent: false}).toArray().then((results) => {
 					send(res, 200, results);
 				})
 			});
