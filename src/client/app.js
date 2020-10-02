@@ -1,16 +1,16 @@
 'use strict';
 
-import TestUIComponent from './modules/test.uiComponent/test.uiComponent';
-import './app.scss';
+import {getConfiguration} from './services/configuration.service';
+import MainUIComponent from './modules/main.uiComponent/main.uiComponent';
 
 let appState = {};
 
 $(document).ready(() => {
+	const $rootElement = $('#app');
 
-	let $rootElement = $('#app');
+	getConfiguration().then(result => {
+		appState = result.payload;
 
-	let test = new TestUIComponent(appState);
-
-	test.render($rootElement);
-
+		new MainUIComponent(appState).appendTo($rootElement);
+	});
 });

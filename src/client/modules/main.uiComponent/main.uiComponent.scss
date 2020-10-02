@@ -1,0 +1,44 @@
+.main {
+	//
+	header {
+		display: flex;
+
+		.logo {
+		}
+		.userMenu {
+			display: flex;
+		}
+	}
+
+	.content {
+		.loader {
+			display: none;
+		}
+		.users {
+			.noUsersMessage {
+				display: none;
+			}
+
+			&.noUsers {
+				.noUsersMessage {
+					display: block;
+				}
+				.activeUsers {
+					display: none;
+				}
+			}
+		}
+
+		&.loading {
+			.loader {
+				display: block;
+			}
+			.users {
+				display: none;
+			}
+		}
+	}
+
+	footer {
+	}
+}

@@ -1,0 +1,29 @@
+<div class="main">
+    <header>
+        <div class="logo"></div>
+        <ul class="userMenu">
+            <li class="userWelcome">Welcome back, <span ui="userName"></span></li>
+            <li class="userLogout"><a href="/logout">Log-out</a></li>
+        </ul>
+    </header>
+    <div class="content loading" ui="content">
+        <div class="loader">Loading...</div>
+        <div class="users">
+            <div class="noUsersMessage">No active users at the moment</div>
+            <table class="activeUsers">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Login Time</th>
+                    <th>Last Update Time</th>
+                    <th>Last Login Time</th>
+                    <th>User IP</th>
+                </tr>
+                </thead>
+                <tbody ui="activeUsersTable"></tbody>
+            </table>
+        </div>
+
+    </div>
+    <footer>Copyright 2020 by Stas Granin</footer>
+</div>
