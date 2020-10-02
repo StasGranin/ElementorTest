@@ -1,6 +1,5 @@
 'use strict';
 
-import {fetchAPI, AUTH_API} from './services/api.service';
 import {isLoggedIn} from './services/auth.service';
 import MainLoginUIComponent from './modules/mainLogin.uiComponent/mainLogin.uiComponent';
 
