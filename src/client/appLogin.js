@@ -9,7 +9,7 @@ $(document).ready(() => {
 	const $rootElement = $('#app');
 	const main = new MainLoginUIComponent(appState);
 
-	isLoggedIn.then(result => {
+	isLoggedIn().then(result => {
 		if (result.payload.isLoggedIn) {
 			window.location = '/';
 		}

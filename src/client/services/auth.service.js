@@ -2,9 +2,7 @@
 
 import {AUTH_API, fetchAPI} from './api.service';
 
-export const isLoggedIn = () => {
-	fetchAPI(AUTH_API + '/isLoggedIn')
-};
+export const isLoggedIn = () => fetchAPI(AUTH_API + '/isLoggedIn');
 
 export const signUp = (username, password) => {
 	return fetchAPI(AUTH_API + '/signUp', {
