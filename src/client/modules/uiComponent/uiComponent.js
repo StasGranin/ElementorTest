@@ -20,6 +20,8 @@ export default class UIComponent {
 				this.uiElements[uiElementName] = $(`[ui="${uiElementName}"]`, $element);
 			});
 
+			this.uiElements.$self = $element;
+
 			this.$element = $element;
 		}
 	}
