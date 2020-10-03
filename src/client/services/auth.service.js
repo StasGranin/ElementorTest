@@ -35,7 +35,7 @@ export const logIn = (username, password) => {
 };
 
 export const logOut = () => {
-	return fetch(AUTH_API + '/logOut', {
+	return fetchAPI(AUTH_API + '/logOut', {
 		method: 'POST'
 	}).then(result => {
 		localStorage.removeItem('user');
