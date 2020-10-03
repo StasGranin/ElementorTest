@@ -17,11 +17,14 @@ export default class MainUIComponent extends UIComponent {
 
 	onAppend() {
 		const {userName, logoutButton} = this.uiElements;
+		const state = this.state;
 
-		userName.html(this.state.username);
+		userName.html(state.username);
 		logoutButton.on('click', logOut);
 
 		this.renderActiveUsers();
+
+		setInterval(this.renderActiveUsers.bind(this), state.pollingInterval);
 	}
 
 	renderActiveUsers() {
@@ -39,14 +42,19 @@ export default class MainUIComponent extends UIComponent {
 				activeUsersSessionLookup[sid] = true;
 
 				if (activeUsersComponents[sid]) {
-					//
+					activeUsersComponents[sid].update(item);
 				} else {
 					activeUsersComponents[sid] = new ActiveUserUIComponent(item);
 				}
 
 				activeUsersComponents[sid].appendTo(activeUsersTable);
 
-				console.log(item);
+				Object.keys(activeUsersComponents).forEach(key => {
+					if (!activeUsersSessionLookup[key]) {
+						activeUsersComponents[key].remove();
+						delete activeUsersComponents[key];
+					}
+				});
 			});
 
 		});

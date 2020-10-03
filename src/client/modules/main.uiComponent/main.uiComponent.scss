@@ -43,6 +43,7 @@ body, html, #app, .main {
 		flex-grow: 1;
 		background-image: linear-gradient(100deg, #f26798 0%, #3023ae 100%);
 		margin-bottom: -60px;
+		min-width: $pageWidth;
 
 		.loader {
 			display: none;
@@ -73,6 +74,7 @@ body, html, #app, .main {
 				th {
 					padding: 5px;
 					border-bottom: 2px solid #e0e0e0;
+					text-align: left;
 				}
 
 				td {
