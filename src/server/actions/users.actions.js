@@ -1,6 +1,6 @@
 "use strict";
 
-const {getCollection} = require('../services/database.service');
+const {getCollection, toObjectId} = require('../services/database.service');
 const {send, sendError, sendGenericError} = require('../services/sendToClient.service');
 const {getClientIP, getClientUserAgent} = require('../services/util.services');
 
@@ -10,7 +10,7 @@ module.exports = {
 		const {sid, username} = req.userSession;
 
 		try {
-			activeUsersCollection.updateOne({_id: sid, username}, {
+			activeUsersCollection.updateOne({_id: toObjectId(sid), username}, {
 				$set: {
 					lastUpdateTime: new Date().getTime(),
 					userAgent: getClientUserAgent(req),
