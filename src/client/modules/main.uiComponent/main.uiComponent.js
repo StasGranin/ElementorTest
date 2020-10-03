@@ -3,6 +3,7 @@
 import UIComponent from '../uiComponent/uiComponent';
 import ActiveUserUIComponent from '../activeUser.uiComponent/activeUser.uiComponent';
 import {getActiveUsers} from '../../services/users.service';
+import {logOut} from '../../services/auth.service';
 
 import template from './main.uiComponent.html';
 import './main.uiComponent.scss';
@@ -15,9 +16,10 @@ export default class MainUIComponent extends UIComponent {
 	}
 
 	onAppend() {
-		const {userName} = this.uiElements;
+		const {userName, logoutButton} = this.uiElements;
 
 		userName.html(this.state.username);
+		logoutButton.on('click', logOut);
 
 		this.renderActiveUsers();
 	}

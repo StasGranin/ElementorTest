@@ -1,22 +1,88 @@
+$pageWidth: 1140px;
+
+body, html, #app, .main {
+	min-height: 100vh;
+}
+
 .main {
-	//
+	display: flex;
+	flex-direction: column;
+	color: #444444;
+	font-size: 15px;
+
 	header {
 		display: flex;
+		background: white;
+		height: 70px;
+		width: $pageWidth;
+		margin: 0 auto;
+		align-items: center;
 
 		.logo {
+			width: 45px;
+			height: 45px;
 		}
 		.userMenu {
 			display: flex;
+			flex-grow: 1;
+			justify-content: flex-end;
+
+			.userName {
+				font-weight: bold;
+			}
+
+			.logoutButton {
+				margin-left: 10px;
+				color: cornflowerblue;
+				cursor: pointer;
+			}
 		}
 	}
 
 	.content {
+		flex-grow: 1;
+		background-image: linear-gradient(100deg, #f26798 0%, #3023ae 100%);
+		margin-bottom: -60px;
+
 		.loader {
 			display: none;
 		}
 		.users {
+			width: $pageWidth;
+			margin: 40px auto;
+
+			.title {
+				color: white;
+				font-size: 52px;
+				font-weight: bold;
+				margin-bottom: 20px;
+			}
+
 			.noUsersMessage {
 				display: none;
+			}
+
+			table {
+				width: 100%;
+				background: white;
+				padding: 20px;
+				border-radius: 10px;
+				border-spacing: 0;
+				box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+
+				th {
+					padding: 5px;
+					border-bottom: 2px solid #e0e0e0;
+				}
+
+				td {
+					padding: 5px;
+					border-bottom: 1px solid #f0f0f0;
+				}
+
+				tr:last-child td {
+					border-bottom: 0 none;
+				}
 			}
 
 			&.noUsers {
@@ -40,5 +106,8 @@
 	}
 
 	footer {
+		color: white;
+		text-align: center;
+		padding: 20px;
 	}
 }

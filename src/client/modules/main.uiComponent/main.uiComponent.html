@@ -1,14 +1,17 @@
 <div class="main">
     <header>
-        <div class="logo"></div>
+        <img class="logo" src="/images/logo.webp">
         <ul class="userMenu">
-            <li class="userWelcome">Welcome back, <span ui="userName"></span></li>
-            <li class="userLogout"><a href="/logout">Log-out</a></li>
+            <li class="userWelcome">Welcome back, <span class="userName" ui="userName"></span></li>
+            <li class="userLogout">
+                <div class="logoutButton" ui="logoutButton">Log-out</div>
+            </li>
         </ul>
     </header>
     <div class="content loading" ui="content">
         <div class="loader">Loading...</div>
         <div class="users">
+            <div class="title">Active sessions</div>
             <div class="noUsersMessage">No active users at the moment</div>
             <table class="activeUsers">
                 <thead>
@@ -23,7 +26,6 @@
                 <tbody ui="activeUsersTable"></tbody>
             </table>
         </div>
-
     </div>
     <footer>Copyright 2020 by Stas Granin</footer>
 </div>

@@ -9,8 +9,10 @@ $(document).ready(() => {
 	const $rootElement = $('#app');
 
 	getConfiguration().then(result => {
-		appState = result.payload;
+		if (result.status === 200) {
+			appState = result.payload;
 
-		new MainUIComponent(appState).appendTo($rootElement);
+			new MainUIComponent(appState).appendTo($rootElement);
+		}
 	});
 });
