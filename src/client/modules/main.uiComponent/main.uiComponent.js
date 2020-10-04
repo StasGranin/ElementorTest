@@ -47,15 +47,14 @@ export default class MainUIComponent extends UIComponent {
 				}
 
 				activeUsersComponents[sid].appendTo(activeUsersTable);
-
-				Object.keys(activeUsersComponents).forEach(key => {
-					if (!activeUsersSessionLookup[key]) {
-						activeUsersComponents[key].remove();
-						delete activeUsersComponents[key];
-					}
-				});
 			});
 
+			Object.keys(activeUsersComponents).forEach(key => {
+				if (!activeUsersSessionLookup[key]) {
+					activeUsersComponents[key].remove();
+					delete activeUsersComponents[key];
+				}
+			});
 		});
 	}
 }
