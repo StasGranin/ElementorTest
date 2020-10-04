@@ -30,9 +30,9 @@ export default class MainUIComponent extends UIComponent {
 	renderActiveUsers() {
 		getActiveUsers().then(results => {
 			const activeUsers = results.payload;
-			const activeUsersSessionLookup = {};
 			const {activeUsersComponents, uiElements} = this;
 			const {content, activeUsersTable} = uiElements;
+			let activeUsersSessionLookup = {};
 
 			content.removeClass('loading');
 
