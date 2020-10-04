@@ -71,19 +71,27 @@ body, html, #app, .main {
 				border-spacing: 0;
 				box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 
-				th {
-					padding: 5px;
-					border-bottom: 2px solid #e0e0e0;
-					text-align: left;
-				}
+				tr {
+					cursor: pointer;
 
-				td {
-					padding: 5px;
-					border-bottom: 1px solid #f0f0f0;
-				}
+					th {
+						padding: 5px;
+						border-bottom: 2px solid #e0e0e0;
+						text-align: left;
+					}
 
-				tr:last-child td {
-					border-bottom: 0 none;
+					td {
+						padding: 5px;
+						border-bottom: 1px solid #f0f0f0;
+					}
+
+					&:hover {
+						background: #f0f0f0;
+					}
+
+					&:last-child td {
+						border-bottom: 0 none;
+					}
 				}
 			}
 
