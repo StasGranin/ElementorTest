@@ -24,7 +24,7 @@ export default class MainUIComponent extends UIComponent {
 
 		this.renderActiveUsers();
 
-		setInterval(this.renderActiveUsers.bind(this), state.pollingInterval);
+		setInterval(() => this.renderActiveUsers(), state.pollingInterval);
 	}
 
 	renderActiveUsers() {

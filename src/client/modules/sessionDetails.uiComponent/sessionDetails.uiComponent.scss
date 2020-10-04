@@ -1,0 +1,47 @@
+.sessionDetails {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(0, 0, 0, 0.8);
+	cursor: pointer;
+
+	.container {
+		width: 500px;
+
+		.title {
+			color: white;
+			font-size: 36px;
+		}
+
+		.detailsBox {
+			padding: 20px;
+			background: white;
+			border-radius: 10px;
+
+			.row {
+				display: flex;
+				font-size: 13px;
+				margin-bottom: 15px;
+
+				.label {
+					font-weight: bold;
+					width: 150px;
+					margin-right: 10px;
+				}
+
+				.value {
+					width: 100%
+				}
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+}

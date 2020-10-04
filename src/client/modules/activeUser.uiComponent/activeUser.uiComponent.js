@@ -2,6 +2,8 @@
 
 import UIComponent from '../uiComponent/uiComponent';
 import moment from 'moment';
+import SessionDetailsUIComponent from '../sessionDetails.uiComponent/sessionDetails.uiComponent';
+import {getActiveSessionDetails} from '../../services/users.service';
 
 import template from './activeUser.uiComponent.html';
 import './activeUser.uiComponent.scss';
@@ -10,7 +12,7 @@ export default class ActiveUserUIComponent extends UIComponent {
 	constructor(state) {
 		super(state, template);
 
-		this.uiElements.$self.on('click', () => this.getUserDetails());
+		this.uiElements.$self.on('click', () => this.getSessionDetails());
 	}
 
 	onAppend() {
@@ -24,10 +26,10 @@ export default class ActiveUserUIComponent extends UIComponent {
 		uiElements.userIP.html(state.userIP);
 	}
 
-	onUpdate(state) {
+	getSessionDetails() {
+		getActiveSessionDetails(this.state._id).then(result => {
 
-	}
-
-	getUserDetails() {
+			new SessionDetailsUIComponent(result.payload).appendTo($('#app'));
+		});
 	}
 }
