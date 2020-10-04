@@ -7,6 +7,8 @@ Test assignment for Elementor
   1. Run "`npm install`"
   2. In terminal window type "`npm run dev`"
   3. In another terminal window type "`npm run devServer`"
+  4. Set up your MongoDB database (name of the database can be provided as environment variable, default is **ElementorTest**)
+  5. Create two collections in your MongoDB database: **users** and **activeUsers** 
   
 ## Server environment variables:
 
@@ -18,4 +20,4 @@ Test assignment for Elementor
 
 `APP_TOKEN_SECRET` - JWT token secret key (default: elementor)
 
-`APP_TOKEN_EXPIRE` - JWT token expiration time in seconds (default: 86400, i.e. 24 hours)
+`CLIENT_POLLING_INTERVAL` - Sets the polling interval for getting the active users sessions (used in the client configuration)
