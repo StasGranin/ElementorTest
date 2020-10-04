@@ -1,13 +1,13 @@
 "use strict";
 
 const express = require('express');
-const {getActiveUsers, getUserDetails} = require('../actions/users.actions');
+const {getActiveUsers, getActiveSessionDetails} = require('../actions/users.actions');
 const {verifyToken} = require('../services/auth.service');
 
 const router = express.Router();
 
 router
 	.get('/getActiveUsers', [verifyToken], getActiveUsers)
-	.get('/getUserDetails', [verifyToken], getUserDetails);
+	.get('/getActiveSessionDetails/:sessionId', [verifyToken], getActiveSessionDetails);
 
 module.exports = router;

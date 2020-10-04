@@ -27,28 +27,50 @@ module.exports = {
 		}
 	},
 
-	getUserDetails: (req, res) => {
-		/*collection.aggregate([
-		 {
-		 $lookup: {
-		 from: 'activeUsers',
-		 localField: 'username',
-		 foreignField: 'username',
-		 as: 'activeUsers'
-		 }
-		 },
-		 {
-		 $unwind: '$activeUsers'
-		 },
-		 {
-		 $match:{
-		 $and:[{username, passwordHash}]
-		 }
-		 },
-		 {
-		 $project: {
-		 username: 1,
-		 }
-		 }]).toArray().then(a => console.log(a));*/
+	getActiveSessionDetails: (req, res) => {
+		const {sessionId} = req.params;
+
+		if (!sessionId) {
+			sendError(res, 400, 'Session id was not provided');
+		}
+
+		try {
+			getCollection('activeUsers').aggregate([
+				{
+					$lookup: {
+						from: 'users',
+						localField: 'username',
+						foreignField: 'username',
+						as: 'user'
+					}
+				},
+				{
+					$unwind: '$user'
+				},
+				{
+					$match: {
+						$and: [{_id: toObjectId(sessionId)}]
+					}
+				},
+				{
+					$project: {
+						userAgent: 1,
+						user: {signUpTime: 1, loginCount: 1}
+					}
+				}
+			]).toArray().then(result => {
+				if (result.length) {
+					send(res, 200, result[0]);
+				}
+				else {
+					sendError(res, 404, 'Session was not found');
+				}
+
+
+			});
+		}
+		catch (error) {
+			sendGenericError(res);
+		}
 	}
 };
